@@ -22,6 +22,7 @@ FROM jboss/keycloak
 #COPY ./theme/zzz-base /opt/jboss/keycloak/themes/zzz-base
 
 COPY ./target/KeycloakCustomEventListener-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments
+COPY ./src/main/resources/themes /opt/jboss/keycloak/themes
 
 # cd /opt/app
 #WORKDIR /opt/app
