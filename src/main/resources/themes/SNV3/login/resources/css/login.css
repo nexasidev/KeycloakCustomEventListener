@@ -3,16 +3,30 @@
    Therefore the Patternfly background must be set to none. */
    
    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-   
+  
+
+.kc-header-wrapper { display:none !important}
+
+.login-pf-page-header {
+	background-image: url(../img/logo-white.svg) !important;
+    background-repeat: no-repeat !important;
+    min-height: 69px !important;
+    display: inline-table !important;
+    margin: auto !important;
+    width: 100% !important;
+    background-size: contain !important;
+    background-position: center !important;
+    margin-bottom: 30px !important;
+}  
    
 .login-pf {
     background: none;
 }
 
 .login-pf body {
-    background: url("../img/bg-patter.jpg") center center fixed;
+    background: url("../img/bg-patter.jpg") center center fixed !important;
 	background-size:29%;
-   
+    padding:10px !important;
     height: 100%;
 	font-family: 'Poppins', sans-serif;
 }
@@ -25,7 +39,7 @@
     border-width: var(--pf-global--BorderWidth--sm);;
     border-color: #EDEDED #EDEDED #8A8D90 #EDEDED;
     border-color: #979797;
-    background-color: #FFFFFF;
+    background-color: #FFFFFF !important;
 	min-height:48px;
     background-color: var(--pf-global--BackgroundColor--100);
     height: 36px;
@@ -155,15 +169,20 @@ textarea.pf-c-form-control {
 
 /* default - IE compatibility */
 .pf-m-primary {
-    color: #FFFFFF;
-    background-color: #0066CC;
+    color: #222;
+    background-color: #fbc23f !important;
+    text-transform: uppercase !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    padding: 12px 10px 10px 10px !important;
+	font-family: 'Poppins', sans-serif !important;
     background-color: var(--pf-global--primary-color--100);
 }
 
 /* default - IE compatibility */
 .pf-m-primary:hover {
-    background-color: #d71216;
-    background-color: #d71216;
+    background-color: #d71216 !important;
+    
 }
 
 /* default - IE compatibility */
@@ -231,7 +250,7 @@ div.kc-logo-text {
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
-    display: inline-table;
+    display: none !important;
 }
 
 div.kc-logo-text span {
@@ -251,6 +270,7 @@ div.kc-logo-text span {
     line-height: 1.2em;
     padding: 62px 10px 20px;
     white-space: normal;
+	display:none !important;
 }
 
 #kc-content {
@@ -490,7 +510,7 @@ ul#kc-totp-supported-apps {
 @media (max-width: 767px) {
 
     .login-pf body {
-        background: white;
+       background: url(../img/bg-patter.jpg) center center fixed;
     }
 
     #kc-header {
@@ -510,8 +530,8 @@ ul#kc-totp-supported-apps {
 
     div.kc-logo-text {
         margin: 0;
-        width: 150px;
-        height: 32px;
+        width: 260px;
+        /* height: 32px; */
         background-size: 100%;
     }
 
