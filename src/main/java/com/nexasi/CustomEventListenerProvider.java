@@ -1,5 +1,16 @@
 package com.nexasi;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+import org.apache.commons.io.IOUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.email.DefaultEmailSenderProvider;
 import org.keycloak.email.EmailException;
@@ -74,25 +85,33 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     		String userDetails = adminEvent.getRepresentation();
     		String userName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"username\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"username\":")))-1);
     		String password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
-			/*
-			 * 
-			 * JSONObject userDetails = new JSONObject(adminEvent.getRepresentation());
-			 * UserModel newRegisteredUser =
-			 * this.session.users().getUserByUsername(userDetails.getString("username"),
-			 * realm); JSONArray creds = userDetails.getJSONArray("credentials"); JSONObject
-			 * passwordDetails = creds.getJSONObject(0);
-			 */    
-            String emailPlainContent = "New user registration\n\n" +
-                    "Email: " +userName + "\n" +
-                    "Username: " + userName + "\n" +
-                    "Password: " +password;
-
-            String emailHtmlContent = "<h1>New user registration</h1>" +
-                    "<ul>" +
-                    "<li>Email: " + userName + "</li>" +
-                    "<li>Username: " +userName + "</li>" +
-                    "<li>Password: " + password + "</li>" +
-                    "</ul>";
+			String emailPlainContent =""; 
+			log.info("Fetching mail template for "+realm.getName() +" realm");
+        	StringBuffer emailHtmlContent = new StringBuffer();
+        	BufferedReader bufferedReader = null;
+        	try {
+        	        FileReader fileReader = new FileReader("/opt/jboss/keycloak/welcome-content/"+realm.getName()+".html");
+        	        bufferedReader = new BufferedReader(fileReader);
+        	        String line;
+        	        while ((line = bufferedReader.readLine()) != null) {
+        	           emailHtmlContent.append(line);
+        	        }
+        			log.info("emailHtmlContent: "+emailHtmlContent.toString());
+        	} catch (FileNotFoundException e1) {
+        		log.info("Unable to send welcome email, template not found: ",e1);
+			} catch (IOException e1) {
+        		log.info("Unable to send welcome email, I/O exception: ",e1);
+			}finally {
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+	        		log.info("Unable to send welcome email, exception while closing buffered reader: ",e);
+				}
+		    }
+        	
+        	String emailHtmlContentString = emailHtmlContent.toString().replace("{Email}", userName);
+        	emailHtmlContentString = emailHtmlContentString.replace("{userName}",userName);
+            emailHtmlContentString = emailHtmlContentString.replace("{password}", password);
 
             DefaultEmailSenderProvider senderProvider = new DefaultEmailSenderProvider(session);
             AdminUser user = new AdminUser();
@@ -100,7 +119,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
             log.info("userName: "+userName);
             log.info("Sending email to user.getEmail() "+user.getEmail());
             try {
-                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "Keycloak - New Registration", emailPlainContent, emailHtmlContent);
+                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "Keycloak - New Registration", emailPlainContent, emailHtmlContentString);
             } catch (EmailException e) {
                 log.error("Failed to send email", e);
             }catch (Exception ex) {

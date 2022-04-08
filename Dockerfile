@@ -23,6 +23,7 @@ FROM jboss/keycloak
 
 COPY ./target/KeycloakCustomEventListener-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments
 COPY ./src/main/resources/themes /opt/jboss/keycloak/themes
+COPY ./src/main/resources/WelcomeMailTemplates /opt/jboss/keycloak/welcome-content
 
 # cd /opt/app
 #WORKDIR /opt/app
