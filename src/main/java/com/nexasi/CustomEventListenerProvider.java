@@ -1,16 +1,10 @@
 package com.nexasi;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import java.util.stream.Stream;
 
-import org.apache.commons.io.IOUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.email.DefaultEmailSenderProvider;
 import org.keycloak.email.EmailException;
@@ -112,6 +106,8 @@ public class CustomEventListenerProvider implements EventListenerProvider {
         	String emailHtmlContentString = emailHtmlContent.toString().replace("{Email}", userName);
         	emailHtmlContentString = emailHtmlContentString.replace("{userName}",userName);
             emailHtmlContentString = emailHtmlContentString.replace("{password}", password);
+            emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", realm.getDisplayName());
+
 
             DefaultEmailSenderProvider senderProvider = new DefaultEmailSenderProvider(session);
             AdminUser user = new AdminUser();
