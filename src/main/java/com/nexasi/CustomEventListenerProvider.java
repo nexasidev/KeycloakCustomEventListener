@@ -106,8 +106,10 @@ public class CustomEventListenerProvider implements EventListenerProvider {
         	String emailHtmlContentString = emailHtmlContent.toString().replace("{Email}", userName);
         	emailHtmlContentString = emailHtmlContentString.replace("{userName}",userName);
             emailHtmlContentString = emailHtmlContentString.replace("{password}", password);
-            emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", realm.getDisplayName());
-
+            if(realm.getDisplayName() != null)
+            	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", realm.getDisplayName());
+            else
+            	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", "");
 
             DefaultEmailSenderProvider senderProvider = new DefaultEmailSenderProvider(session);
             AdminUser user = new AdminUser();
