@@ -117,7 +117,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
             log.info("userName: "+userName);
             log.info("Sending email to user.getEmail() "+user.getEmail());
             try {
-                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "Keycloak - New Registration", emailPlainContent, emailHtmlContentString);
+                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "Thank You For Signing Up", emailPlainContent, emailHtmlContentString);
             } catch (EmailException e) {
                 log.error("Failed to send email", e);
             }catch (Exception ex) {
