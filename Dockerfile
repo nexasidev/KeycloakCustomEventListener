@@ -25,6 +25,9 @@ COPY ./target/KeycloakCustomEventListener-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak
 COPY ./src/main/resources/themes /opt/jboss/keycloak/themes
 COPY ./src/main/resources/WelcomeMailTemplates /opt/jboss/keycloak/welcome-content
 COPY ./src/main/resources/properties/messages_en.properties /opt/jboss/keycloak/themes/base/email/messages
+COPY ./src/main/resources/themes/base/messages_en.properties /opt/jboss/keycloak/themes/base/login/messages
+COPY ./src/main/resources/themes/base/login-reset-password.ftl /opt/jboss/keycloak/themes/base/login
+COPY ./src/main/resources/themes/base/login-update-password.ftl /opt/jboss/keycloak/themes/base/login
 
 # cd /opt/app
 #WORKDIR /opt/app
