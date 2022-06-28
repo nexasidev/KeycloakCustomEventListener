@@ -115,7 +115,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
             	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", realm.getDisplayName());
             else
             	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", "");
-            emailHtmlContentString = emailHtmlContentString.replace("{dotStowAppLink}", "http://dotstow-dev.s3-website.us-east-2.amazonaws.com/");
+            emailHtmlContentString = emailHtmlContentString.replace("{dotStowAppLink}", "http://dotstow-uat.s3-website.us-east-2.amazonaws.com/");
             DefaultEmailSenderProvider senderProvider = new DefaultEmailSenderProvider(session);
             AdminUser user = new AdminUser();
             user.setEmail(userName);
