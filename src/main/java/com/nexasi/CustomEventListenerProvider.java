@@ -77,6 +77,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     	if (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType()) ) {
     		RealmModel realm = this.model.getRealm(adminEvent.getRealmId());
     		String userDetails = adminEvent.getRepresentation();
+    		log.info("userDetails: "+userDetails);
     		String userName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"username\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"username\":")))-1);
     		String password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
 			String emailPlainContent =""; 
