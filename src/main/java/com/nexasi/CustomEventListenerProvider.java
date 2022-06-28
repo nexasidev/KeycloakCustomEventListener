@@ -79,6 +79,8 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     		String userDetails = adminEvent.getRepresentation();
     		String userName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"username\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"username\":")))-1);
     		String password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
+    		String firstName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"firstName\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"firstName\":")))-1);
+
 			String emailPlainContent =""; 
 			log.info("Fetching mail template for "+realm.getName() +" realm");
         	StringBuffer emailHtmlContent = new StringBuffer();
@@ -107,18 +109,19 @@ public class CustomEventListenerProvider implements EventListenerProvider {
         	String emailHtmlContentString = emailHtmlContent.toString().replace("{Email}", userName);
         	emailHtmlContentString = emailHtmlContentString.replace("{userName}",userName);
             emailHtmlContentString = emailHtmlContentString.replace("{password}", password);
+            emailHtmlContentString = emailHtmlContentString.replace("{firstName}", firstName);
             if(realm.getDisplayName() != null)
             	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", realm.getDisplayName());
             else
             	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", "");
-
+            emailHtmlContentString = emailHtmlContentString.replace("{dotStowAppLink}", "http://http://dotstow-qa.s3-website.us-east-2.amazonaws.com/");
             DefaultEmailSenderProvider senderProvider = new DefaultEmailSenderProvider(session);
             AdminUser user = new AdminUser();
             user.setEmail(userName);
             log.info("userName: "+userName);
             log.info("Sending email to user.getEmail() "+user.getEmail());
             try {
-                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "Thank You For Signing Up", emailPlainContent, emailHtmlContentString);
+                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "You have a new user account with DotStow", emailPlainContent, emailHtmlContentString);
             } catch (EmailException e) {
                 log.error("Failed to send email", e);
             }catch (Exception ex) {
