@@ -20,7 +20,7 @@
              <div class="${properties.kcFormGroupClass!} ${properties.kcFormSettingClass!}">
                 <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">
                     <div class="${properties.kcFormOptionsWrapperClass!}">
-                        <span><a href="https://www.hometownopportunity.com/">${kcSanitize(msg("backToHome"))?no_esc}</a></span>
+                        <span><a href="http://dotstow-uat.s3-website.us-east-2.amazonaws.com//">${kcSanitize(msg("backToHome"))?no_esc}</a></span>
                     </div>
                 </div>
 
