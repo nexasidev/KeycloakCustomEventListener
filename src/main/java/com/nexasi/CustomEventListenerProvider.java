@@ -114,14 +114,14 @@ public class CustomEventListenerProvider implements EventListenerProvider {
             	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", realm.getDisplayName());
             else
             	emailHtmlContentString = emailHtmlContentString.replace("{RealmDisplayName}", "");
-            emailHtmlContentString = emailHtmlContentString.replace("{dotStowAppLink}", "http://http://dotstow-qa.s3-website.us-east-2.amazonaws.com/");
+            emailHtmlContentString = emailHtmlContentString.replace("{dotStowAppLink}", "https://dotstow.com/");
             DefaultEmailSenderProvider senderProvider = new DefaultEmailSenderProvider(session);
             AdminUser user = new AdminUser();
             user.setEmail(userName);
             log.info("userName: "+userName);
             log.info("Sending email to user.getEmail() "+user.getEmail());
             try {
-                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "You have a new user account with DotStow", emailPlainContent, emailHtmlContentString);
+                senderProvider.send(session.getContext().getRealm().getSmtpConfig(), user, "Welcome to your "+realm.getDisplayName()+"’s account at DotStow.", emailPlainContent, emailHtmlContentString);
             } catch (EmailException e) {
                 log.error("Failed to send email", e);
             }catch (Exception ex) {
