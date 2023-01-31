@@ -28,6 +28,8 @@ COPY ./src/main/resources/properties/messages_en.properties /opt/jboss/keycloak/
 COPY ./src/main/resources/themes/base/messages_en.properties /opt/jboss/keycloak/themes/base/login/messages
 COPY ./src/main/resources/themes/base/login-reset-password.ftl /opt/jboss/keycloak/themes/base/login
 COPY ./src/main/resources/themes/base/login-update-password.ftl /opt/jboss/keycloak/themes/base/login
+COPY ./src/main/resources/themes/base/login.ftl /opt/jboss/keycloak/themes/base/login
+
 
 # cd /opt/app
 #WORKDIR /opt/app
