@@ -74,10 +74,15 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     	log.info("adminEvent.getRepresentation(): "+adminEvent.getRepresentation());
     	log.info("adminEvent.getResourceTypeAsString(): "+adminEvent.getResourceTypeAsString());
     	log.info("getAuthDetails().toString(): "+adminEvent.getAuthDetails().toString());
-    	if (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType()) ) {
+    	String userActive = null;
+    	if(adminEvent.getRepresentation() != null  && adminEvent.getRepresentation().contains("enabled\":")) {
+    		userActive = adminEvent.getRepresentation().substring(adminEvent.getRepresentation().indexOf("enabled\":")+9,
+    				adminEvent.getRepresentation().indexOf(",", adminEvent.getRepresentation().indexOf("enabled\":")));
+    	}
+    	if ( (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType())) && 
+    			((OperationType.UPDATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType())) && "true".equalsIgnoreCase(userActive) )){
     		RealmModel realm = this.model.getRealm(adminEvent.getRealmId());
     		String userDetails = adminEvent.getRepresentation();
-    		log.info("userDetails: "+userDetails);
     		String userName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"username\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"username\":")))-1);
     		String password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
     		String firstName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"firstName\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"firstName\":")))-1);
