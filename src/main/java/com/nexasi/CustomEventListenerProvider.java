@@ -80,7 +80,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     				adminEvent.getRepresentation().indexOf(",", adminEvent.getRepresentation().indexOf("enabled\":")));
     	}
     	if ( (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType())) || 
-    			((OperationType.UPDATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType())) && "true".equalsIgnoreCase(userActive) )){
+    			(OperationType.UPDATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType()) && "true".equalsIgnoreCase(userActive))){
     		log.info("Sending Emal");
     		RealmModel realm = this.model.getRealm(adminEvent.getRealmId());
     		String userDetails = adminEvent.getRepresentation();
