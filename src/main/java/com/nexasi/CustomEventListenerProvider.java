@@ -76,7 +76,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     	log.info("getAuthDetails().toString(): "+adminEvent.getAuthDetails().toString());
     	String password = null;
     	String userDetails = adminEvent.getRepresentation();
-    	if(userDetails != null  && userDetails.contains("password\":")) {
+    	if(userDetails != null  && userDetails.contains("password")) {
     		password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
     	}
     	if ((OperationType.CREATE.equals(adminEvent.getOperationType()) || OperationType.UPDATE.equals(adminEvent.getOperationType())) && ResourceType.USER.equals(adminEvent.getResourceType()) && password != null){
