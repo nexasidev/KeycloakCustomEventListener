@@ -74,7 +74,14 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     	log.info("adminEvent.getRepresentation(): "+adminEvent.getRepresentation());
     	log.info("adminEvent.getResourceTypeAsString(): "+adminEvent.getResourceTypeAsString());
     	log.info("getAuthDetails().toString(): "+adminEvent.getAuthDetails().toString());
-    	if (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType()) ) {
+    	String userActive = null;
+    	if(adminEvent.getRepresentation() != null  && adminEvent.getRepresentation().contains("enabled\":")) {
+    		userActive = adminEvent.getRepresentation().substring(adminEvent.getRepresentation().indexOf("enabled\":")+9,
+    				adminEvent.getRepresentation().indexOf(",", adminEvent.getRepresentation().indexOf("enabled\":")));
+    	}
+    	if ( (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType())) || 
+    			(OperationType.UPDATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType()) && "true".equalsIgnoreCase(userActive))){
+    		log.info("Sending Emal");
     		RealmModel realm = this.model.getRealm(adminEvent.getRealmId());
     		String userDetails = adminEvent.getRepresentation();
     		String userName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"username\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"username\":")))-1);
