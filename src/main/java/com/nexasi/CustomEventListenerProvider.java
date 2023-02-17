@@ -74,11 +74,16 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     	log.info("adminEvent.getRepresentation(): "+adminEvent.getRepresentation());
     	log.info("adminEvent.getResourceTypeAsString(): "+adminEvent.getResourceTypeAsString());
     	log.info("getAuthDetails().toString(): "+adminEvent.getAuthDetails().toString());
-    	if (OperationType.CREATE.equals(adminEvent.getOperationType()) && ResourceType.USER.equals(adminEvent.getResourceType()) ) {
+    	String password = null;
+    	String userDetails = adminEvent.getRepresentation();
+    	if(userDetails != null  && userDetails.contains("password")) {
+    		password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
+    	}
+    	if ((OperationType.CREATE.equals(adminEvent.getOperationType()) || OperationType.UPDATE.equals(adminEvent.getOperationType())) && ResourceType.USER.equals(adminEvent.getResourceType()) && password != null){
+    		log.info("Sending Emal");
     		RealmModel realm = this.model.getRealm(adminEvent.getRealmId());
-    		String userDetails = adminEvent.getRepresentation();
     		String userName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"username\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"username\":")))-1);
-    		String password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
+    		//String password = userDetails.substring(userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":[")))+8, userDetails.indexOf(",", userDetails.indexOf("value\":",userDetails.indexOf("\"type\":\"password\",",userDetails.indexOf("\"credentials\":["))))-1);
     		String firstName = userDetails.substring(userDetails.indexOf(":",userDetails.indexOf("\"firstName\":"))+2, userDetails.indexOf(",", userDetails.indexOf(":",userDetails.indexOf("\"firstName\":")))-1);
 
 			String emailPlainContent =""; 
