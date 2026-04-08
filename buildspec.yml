@@ -4,13 +4,11 @@ phases:
   pre_build:
     commands:
     - echo Logging in to Docker Hub...
-    # SECURITY FIX: Use the environment variable, not the plain-text password
-    - docker login --username socialnexasi --password $DOCKERHUB_PASS
-    - echo Logging in to Amazon ECR...
-    - aws --version
-    - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 485788481896.dkr.ecr.us-east-2.amazonaws.com
-    - REPOSITORY_URI=485788481896.dkr.ecr.us-east-2.amazonaws.com/keycloak-dotstow-prod
-    - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - docker login --username socialnexasi --password $DOCKERHUB_PASS
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 485788481896.dkr.ecr.us-east-2.amazonaws.com
+      - REPOSITORY_URI=485788481896.dkr.ecr.us-east-2.amazonaws.com/keycloak-dotstow-prod
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
 
   build:
     commands:
