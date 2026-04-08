@@ -12,7 +12,8 @@
 # FROM openjdk:8-jdk-alpine
 
 # For Java 11, try this
-FROM jboss/keycloak
+#FROM jboss/keycloak
+FROM quay.io/keycloak/keycloak:16.1.0
 #FROM adoptopenjdk/openjdk13
 #FROM amazoncorretto:11
 
