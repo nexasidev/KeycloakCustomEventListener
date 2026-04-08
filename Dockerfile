@@ -22,15 +22,11 @@ FROM quay.io/keycloak/keycloak:16.1.0
 
 #COPY ./theme/zzz-base /opt/jboss/keycloak/themes/zzz-base
 
-
 COPY ./target/KeycloakCustomEventListener-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments
-RUN touch /opt/jboss/keycloak/standalone/deployments/KeycloakCustomEventListener-0.0.1-SNAPSHOT.jar.dodeploy
-
 COPY ./src/main/resources/themes /opt/jboss/keycloak/themes
 COPY ./src/main/resources/WelcomeMailTemplates /opt/jboss/keycloak/welcome-content
 COPY ./src/main/resources/properties/messages_en.properties /opt/jboss/keycloak/themes/base/email/messages
 
-EXPOSE 8080
 # cd /opt/app
 #WORKDIR /opt/app
 
