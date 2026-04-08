@@ -1,5 +1,5 @@
 # 1. PIN THE EXACT VERSION (Change to 15.0.2.Final if this branch is for the older server)
-FROM jboss/keycloak:15.0.2
+FROM quay.io/keycloak/keycloak:15.0.2
 
 # 2. COPY CUSTOM EXTENSIONS
 COPY ./target/KeycloakCustomEventListener-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments
