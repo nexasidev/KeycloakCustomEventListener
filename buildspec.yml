@@ -23,6 +23,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
+      # FIX: Changed "keycloak-snv3-app" to "keycloak-snv3-prod"
       - printf '[{"name":"keycloak-snv3-prod","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
     
 cache:
